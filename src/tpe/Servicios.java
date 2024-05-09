@@ -4,9 +4,8 @@ import tpe.utils.CSVReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
+
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
@@ -17,6 +16,8 @@ public class Servicios {
 
 	private HashMap<String, Procesador> procesadores;
 	private HashMap<String, Tarea> tareas;
+	private ArrayList es_critica, no_esCritica;
+
 	/*
      * La complejidad temporal del constructor es O(n), donde n es la cantidad de lineas
      * que contiene el csv para asi luego crear el objeto y agregarla al hashmap
@@ -26,7 +27,23 @@ public class Servicios {
 		CSVReader reader = new CSVReader();
 		this.procesadores = reader.readProcessors(pathProcesadores);
 		this.tareas = reader.readTasks(pathTareas);
+		this.es_critica = new ArrayList();
+		this.no_esCritica = new ArrayList();
 
+		this.tareas.forEach( (key, value) ->{
+			if (value.isEs_critica())
+				this.es_critica.add(value);
+			else
+				this.no_esCritica.add(value);
+		});
+	}
+
+	public ArrayList getEs_critica() {
+		return es_critica;
+	}
+
+	public ArrayList getNo_esCritica() {
+		return no_esCritica;
 	}
 
 	public HashMap<String, Procesador> getProcesadores() {
@@ -47,23 +64,15 @@ public class Servicios {
 	}
     
     /*
-     * La complejidad temporal del servicio 2 es O(n), ya que hay que iterar sobre todas
-     * las tareas para poder obtener si es critica o no, por lo que n son las tareas.
+     * La complejidad temporal del servicio 2 es O(1), ya que verifica si se piden las tareas
+     * criticas o las no criticas y devuelve la lista respectiva.
      */
 	public List<Tarea> servicio2(boolean esCritica) {
 
-		List<Tarea> listaTareas = new ArrayList<>();
-
-		this.tareas.forEach( (key, value) ->{
-			if (esCritica && value.isEs_critica())
-				listaTareas.add(value);
-
-			else if (!esCritica && !value.isEs_critica()) {
-
-				listaTareas.add(value);
-			}
-		});
-		return listaTareas;
+		if (esCritica)
+			return this.es_critica;
+		else
+			return this.no_esCritica;
 	}
 
     /*
