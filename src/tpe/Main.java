@@ -1,5 +1,6 @@
 package tpe;
 
+import tpe.parte2.Backtracking;
 import tpe.utils.CSVReader;
 
 public class Main {
@@ -11,16 +12,15 @@ public class Main {
 		String csvTareas = "./src/tpe/datasets/Tareas.csv";
 		String csvProcesadores = "./src/tpe/datasets/Procesadores.csv";
 
-
-		tpe.Servicios servicios =
-				new tpe.Servicios(csvProcesadores, csvTareas);
+/*
+		tpe.Servicios servicios = new tpe.Servicios(csvProcesadores, csvTareas);
 
 		System.out.println("");
 		System.out.println("Procesadores:");
 
 		servicios.getProcesadores().forEach( (key, value) ->{
 
-			System.out.println(value);
+			System.out.println(key.getId_procesador());
 
 		});
 
@@ -48,5 +48,22 @@ public class Main {
 		System.out.println("Servicio 3:");
 
 		System.out.println(servicios.servicio3(35,60));
+
+*/
+
+		/////////////////////////////////////BACKTRACKING/////////////////////////////////////////////////////
+
+		Backtracking back = new Backtracking(csvProcesadores, csvTareas, 35);
+
+		back.asignarTareas();
+
+		back.getProcesadores().forEach( (key,value) ->{
+
+			System.out.println( key + " ");
+			System.out.println(value);
+
+		});
+
+
 	}
 }

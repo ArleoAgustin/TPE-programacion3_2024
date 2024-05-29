@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Servicios {
 
-	private HashMap<String, Procesador> procesadores;
+	private HashMap<Procesador, ArrayList<Tarea>> procesadores;
 	private HashMap<String, Tarea> tareas;
 	private ArrayList es_critica, no_esCritica;
 
@@ -46,7 +46,7 @@ public class Servicios {
 		return no_esCritica;
 	}
 
-	public HashMap<String, Procesador> getProcesadores() {
+	public HashMap<Procesador, ArrayList<Tarea>> getProcesadores() {
 		return procesadores;
 	}
 

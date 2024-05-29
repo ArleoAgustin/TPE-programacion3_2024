@@ -38,7 +38,7 @@ public class CSVReader {
 
 	public HashMap readProcessors(String processorPath) {
 
-		HashMap<String, Procesador> procesadores = new HashMap<>();
+		HashMap<Procesador, ArrayList<Tarea>> procesadores = new HashMap<>();
 		ArrayList<String[]> lines = this.readContent(processorPath);
 
 		for (String[] line: lines) {
@@ -48,7 +48,7 @@ public class CSVReader {
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			Procesador p = new Procesador(id,codigo,anio,refrigerado);
-			procesadores.put(id, p);
+			procesadores.put(p, new ArrayList<Tarea>());
 		}
 	return procesadores;
 	}

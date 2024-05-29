@@ -6,6 +6,8 @@ public class Procesador {
     private int anio_funcionamiento;
     private boolean esta_refrigerado;
 
+
+
     public Procesador(String id_procesador, String codigo_procesador, int anio_funcionamiento, boolean esta_refrigerado) {
         this.id_procesador = id_procesador;
         this.codigo_procesador = codigo_procesador;
@@ -47,11 +49,11 @@ public class Procesador {
 
     @Override
     public String toString() {
-        return "Procesador{" +
-                "id_procesador='" + id_procesador + '\'' +
-                ", codigo_procesador='" + codigo_procesador + '\'' +
-                ", anio_funcionamiento=" + anio_funcionamiento +
-                ", esta_refrigerado=" + esta_refrigerado +
+        return "Procesador{" +"\n" +
+                "   id_procesador='" + id_procesador + "," + '\n' +
+                "   codigo_procesador='" + codigo_procesador + "," + '\n' +
+                "   anio_funcionamiento=" + anio_funcionamiento + "," + "\n" +
+                "   esta_refrigerado=" + esta_refrigerado + "," + "\n" +
                 '}';
     }
 }
