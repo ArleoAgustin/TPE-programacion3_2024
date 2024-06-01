@@ -62,8 +62,8 @@ public class ListaTareas {
 
     @Override
     public String toString() {
-        return  "tareas asociadas: " + '\n'  + tareas + '\n' + '\n'
+        return  "\n" +"tareas asociadas: " + '\n'  + tareas + '\n' + '\n'
                 + "Tiempo total de ejecucion del procesador: "+ tiempoEjecucionTotal + '\n' +
-                "---------------------------------------------------------";
+                "---------------------------------------------------------" +"\n" ;
     }
 }

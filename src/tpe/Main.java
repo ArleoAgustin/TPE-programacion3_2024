@@ -68,20 +68,21 @@ public class Main {
 
 		System.out.println("Backtracking:");
 
+		System.out.println(back.asignarTareas());
+		//back.asignarTareas().forEach( (key,value) ->{
 
-		back.asignarTareas().forEach( (key,value) ->{
-
+			/*
 			System.out.println("");
 			System.out.println( "  "+key + " ");
 			System.out.println(" ");
 			System.out.println(value);
-
-		});
+*/
+		//});
 
 
 		System.out.println("");
 
-		System.out.println("Tiempo maximo de ejecucion: "+ back.getTiempomaximoDeEjecucion());
+		System.out.println("Tiempo maximo de ejecucion: "+ back.getmejorTiempomaximoDeEjecucion());
 		System.out.println("Cantidad de estados: "+ back.getContEstados());
 
 	}

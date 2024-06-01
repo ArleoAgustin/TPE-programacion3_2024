@@ -3,10 +3,8 @@ package tpe.parte2;
 import tpe.Procesador;
 import tpe.Tarea;
 import tpe.utils.CSVReader;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("SpellCheckingInspection")
@@ -17,8 +15,7 @@ public class Backtracking {
     private int contEstados;
     private int tiempoDeEjecucionParaProcesadoresNoRefrigerados;
     private HashMap<Procesador, ListaTareas> mejorSolucion;
-
-    private int tiempomaximoDeEjecucion;
+    private int mejorTiempomaximoDeEjecucion;
 
     public Backtracking(String pathProcesadores, String pathTareas, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
 
@@ -28,14 +25,14 @@ public class Backtracking {
         this.tiempoDeEjecucionParaProcesadoresNoRefrigerados = tiempoDeEjecucionParaProcesadoresNoRefrigerados;
         this.contEstados = 0;
         this.mejorSolucion = new HashMap();
-        this.tiempomaximoDeEjecucion = 0;
+        this.mejorTiempomaximoDeEjecucion = 0;
     }
 
 
     public HashMap<Procesador, ListaTareas> asignarTareas(){
 
 
-        this.backtracking(new ArrayList(tareas.values()));
+        this.backtracking(new ArrayList<Tarea>(tareas.values()));
         System.out.println(mejorSolucion);
         return mejorSolucion;
 
@@ -59,8 +56,13 @@ public class Backtracking {
         contEstados++;
 
         if (tareasSinAsignar.isEmpty()) {
-            if (mejorSolucion.isEmpty() || actualEsMejorSolucion()) {
 
+            if (this.mejorSolucion.isEmpty()){
+                mejorSolucion = this.hacercopia();
+                return;
+            }
+
+            if (actualEsMejorSolucion()) {
                 mejorSolucion = this.hacercopia();
             }
         }
@@ -68,14 +70,19 @@ public class Backtracking {
 
             Tarea tarea = tareasSinAsignar.get(0);
 
-            for (Procesador p : procesadores.keySet()) {    //va a asignar tareas hasta que p ya no cumpla los requisitos
-
+            for (Procesador p : procesadores.keySet()) { // Recorre todos los procesadores
                 if (cumpleRequisitos(tarea, p)) {
-                    procesadores.get(p).addTarea(tarea);    //le asigna la tarea a la lista de tareas del procesador
+
+                    ListaTareas tareasProcesador = procesadores.get(p);
+                    tareasProcesador.addTarea(tarea);                // Agrega la tarea al procesador
+                    procesadores.put(p, tareasProcesador);      // Actualiza el hash de procesadores con la tarea asignada
                     tareasSinAsignar.remove(tarea);
+
                     backtracking(tareasSinAsignar);
-                    procesadores.get(p).removeTarea(tarea);     //remueve la tarea del procesador
-                    tareasSinAsignar.add(0,tarea);
+
+                    tareasProcesador.removeTarea(tarea);
+                    procesadores.put(p, tareasProcesador);      // Actualiza el hashmap con las tareas asignadas
+                    tareasSinAsignar.add(0, tarea);
                 }
             }
         }
@@ -91,7 +98,7 @@ public class Backtracking {
     * No hace falta recorrer todas las listas, ya que ListaTarea es un objeto que contiene la lista y un atributo que lleva
     * la cuenta del tiempo total de ejecucion de una lista de tareas.
     */
-
+/*
     private boolean actualEsMejorSolucion() {
 
         for (Map.Entry<Procesador, ListaTareas> procesadoresActual : procesadores.entrySet()) {
@@ -109,7 +116,23 @@ public class Backtracking {
 
         return true;
     }
+*/
 
+
+    private boolean actualEsMejorSolucion() {
+        int tiempoTotalActual = calcularTiempoEjecucion(procesadores);
+        int tiempoTotalMejorSolucion = calcularTiempoEjecucion(mejorSolucion);
+
+        return tiempoTotalActual < tiempoTotalMejorSolucion;
+    }
+
+    private int calcularTiempoEjecucion(HashMap<Procesador, ListaTareas> procesadores) {
+        int tiempoTotal = 0;
+        for (ListaTareas listaTareas : procesadores.values()) {
+            tiempoTotal += listaTareas.getTiempoEjecucionTotal();
+        }
+        return tiempoTotal;
+    }
 
     private HashMap<Procesador, ListaTareas> hacercopia(){
 
@@ -119,9 +142,9 @@ public class Backtracking {
 
             Procesador procesador = procesadores.getKey();                          //crea una copia del procesador
             ListaTareas lista = new ListaTareas(procesadores.getValue());   //crea una copia de la lista (objeto)
-
+            mejorTiempomaximoDeEjecucion += lista.getTiempoEjecucionTotal();
             //aumenta el tiempo total que tardarian todos los procesadores en realizar todas las tareas
-            this.tiempomaximoDeEjecucion += lista.getTiempoEjecucionTotal();
+
             copia.put(procesador, lista);
         }
         return copia;
@@ -151,8 +174,8 @@ public class Backtracking {
 
 
 
-    public int getTiempomaximoDeEjecucion() {
-        return tiempomaximoDeEjecucion;
+    public int getmejorTiempomaximoDeEjecucion() {
+        return mejorTiempomaximoDeEjecucion;
     }
 
     public int getContEstados() {
