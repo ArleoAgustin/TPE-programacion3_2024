@@ -1,9 +1,12 @@
 package tpe;
 
 import tpe.parte2.Backtracking;
+import tpe.parte2.Greedy;
+import tpe.parte2.ListaTareas;
 import tpe.utils.CSVReader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -58,8 +61,8 @@ public class Main {
 
 
 		System.out.println("");
-		System.out.println("----------------------------------------------------------------------------------------------------");
-		System.out.println("Parte 2");
+		System.out.println("----------------------------------------------------------------- Parte 2 ---------------------------------------------------------------------");
+
 		System.out.println("");
 
 		/////////////////////////////////////BACKTRACKING/////////////////////////////////////////////////////
@@ -68,22 +71,56 @@ public class Main {
 
 		System.out.println("Backtracking:");
 
-		//System.out.println(back.asignarTareas());
-		back.asignarTareas(25).forEach( (key,value) ->{
+		HashMap<Procesador, ListaTareas> procesadoresBacktracking = back.asignarTareas(25);
+
+		if (back.isAsignoTodas()){
+
+			procesadoresBacktracking.forEach( (key,value) ->{
 
 
-			System.out.println("");
-			System.out.println( "  "+key + " ");
-			System.out.println(" ");
-			System.out.println(value);
+				System.out.println("");
+				System.out.println( "  "+key + " ");
+				System.out.println(" ");
+				System.out.println(value);
 
-		});
+			});
+		}
+		else
+			System.out.println("No pudieron ser asignadas todas las tareas");
 
 
 		System.out.println("");
-
 		System.out.println("Tiempo maximo de ejecucion: "+ back.getmejorTiempomaximoDeEjecucion());
 		System.out.println("Cantidad de estados: "+ back.getContEstados());
 
+
+		/////////////////////////////////////GREEDY////////////////////////////////////////////////////////////
+
+		System.out.println("");
+		System.out.println("---------------------------------------------------------------------- Greedy --------------------------------------------------------------------------");
+		System.out.println("Greedy");
+
+		Greedy greedy = new Greedy(csvProcesadores, csvTareas);
+
+		HashMap<Procesador, ListaTareas> procesadoresGreedy = greedy.asignarTareas(25);
+
+		if (greedy.getContTareasNoAsignadas() > 0){
+			System.out.println("No se pudieron asignar todas las tareas");
+		}
+		else {
+
+			procesadoresGreedy.forEach((key, value) -> {
+
+
+				System.out.println("");
+				System.out.println("  " + key + " ");
+				System.out.println(" ");
+				System.out.println(value);
+
+			});
+
+			System.out.println("Tiempo maximo de ejecucion: " + greedy.getTiempomaximoDeEjecucion());
+			System.out.println("Cantidad de estados: " + greedy.getContEstados());
+		}
 	}
 }

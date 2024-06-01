@@ -31,8 +31,13 @@ public class ListaTareas {
 
     public void removeTarea(Tarea t){
 
-        if (tareas.contains(t))
+        if (tareas.contains(t)) {
             tareas.remove(t);
+            if (t.isEs_critica())
+                cantTareasCriticas--;
+
+            this.tiempoEjecucionTotal -= t.getTiempo_ejecucion();
+        }
 
     }
 

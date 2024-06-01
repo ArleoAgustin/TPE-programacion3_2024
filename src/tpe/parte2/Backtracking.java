@@ -15,6 +15,8 @@ public class Backtracking {
     private int contEstados;
     private HashMap<Procesador, ListaTareas> mejorSolucion;
     private int mejorTiempomaximoDeEjecucion;
+    private ArrayList<Tarea> tareasSinAsignar;
+    private boolean asignoTodas;
 
     public Backtracking(String pathProcesadores, String pathTareas) {
 
@@ -24,14 +26,17 @@ public class Backtracking {
         this.contEstados = 0;
         this.mejorSolucion = new HashMap();
         this.mejorTiempomaximoDeEjecucion = 0;
+        this.tareasSinAsignar = new ArrayList(tareas.values());
+        this.asignoTodas = false;
     }
 
 
     public HashMap<Procesador, ListaTareas> asignarTareas(int tiempoDeEjecucionParaProcesadoresNoRefrigerados){
 
 
-        this.backtracking(new ArrayList<Tarea>(tareas.values()), tiempoDeEjecucionParaProcesadoresNoRefrigerados);
+        this.backtracking(this.tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
         return mejorSolucion;
+
 
     }
 
@@ -55,14 +60,14 @@ public class Backtracking {
         if (tareasSinAsignar.isEmpty()) {
 
             if (this.mejorSolucion.isEmpty()){
-                System.out.println("Estoy vacio");
                 mejorSolucion = this.hacercopia();
+                this.asignoTodas = true;
                 return;
             }
 
             if (actualEsMejorSolucion()) {
-                System.out.println("Fui mejor solucion");
                 mejorSolucion = this.hacercopia();
+                this.asignoTodas = true;
             }
         }
         else {
@@ -72,15 +77,10 @@ public class Backtracking {
             for (Procesador p : procesadores.keySet()) { // Recorre todos los procesadores
                 if (cumpleRequisitos(tarea, p, tiempoDeEjecucionParaProcesadoresNoRefrigerados)) {
 
-                    ListaTareas tareasProcesador = procesadores.get(p);
-                    tareasProcesador.addTarea(tarea);                // Agrega la tarea al procesador
-                    procesadores.put(p, tareasProcesador);      // Actualiza el hash de procesadores con la tarea asignada
                     tareasSinAsignar.remove(tarea);
-
+                    procesadores.get(p).addTarea(tarea);     // Agrega la tarea al procesador
                     backtracking(tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
-
-                    tareasProcesador.removeTarea(tarea);
-                    procesadores.put(p, tareasProcesador);      // Actualiza el hashmap con las tareas asignadas
+                    procesadores.get(p).removeTarea(tarea);      // elimina la tarea del hashmap
                     tareasSinAsignar.add(0, tarea);
                 }
             }
@@ -97,16 +97,18 @@ public class Backtracking {
     * No hace falta recorrer todas las listas, ya que ListaTarea es un objeto que contiene la lista y un atributo que lleva
     * la cuenta del tiempo total de ejecucion de una lista de tareas.
     */
-/*
+
+
+    //se recorren los hashmap de procesadores y mejorSolucion
     private boolean actualEsMejorSolucion() {
 
-        for (Map.Entry<Procesador, ListaTareas> procesadoresActual : procesadores.entrySet()) {
+        for (ListaTareas tareasPActual : procesadores.values()) {
 
-            int tiempoDeEjecucionTotal = procesadoresActual.getValue().getTiempoEjecucionTotal();
+            int tiempoDeEjecucionTotal = tareasPActual.getTiempoEjecucionTotal();
 
-            for (Map.Entry<Procesador, ListaTareas> procesadoresMjSolucion : mejorSolucion.entrySet()) {
+            for (ListaTareas tareasMjSolucion : mejorSolucion.values()) {
 
-                int tiempoDeEjecucionTotalMjSolucion = procesadoresMjSolucion.getValue().getTiempoEjecucionTotal();
+                int tiempoDeEjecucionTotalMjSolucion = tareasMjSolucion.getTiempoEjecucionTotal();
 
                 if (tiempoDeEjecucionTotal > tiempoDeEjecucionTotalMjSolucion)  //si al encontrar una lista ya es mayor el tiempo no busca mas
                     return false;
@@ -115,23 +117,10 @@ public class Backtracking {
 
         return true;
     }
-*/
 
 
-    private boolean actualEsMejorSolucion() {
-        int tiempoTotalActual = calcularTiempoEjecucion(procesadores);
-        int tiempoTotalMejorSolucion = calcularTiempoEjecucion(mejorSolucion);
 
-        return tiempoTotalActual < tiempoTotalMejorSolucion;
-    }
 
-    private int calcularTiempoEjecucion(HashMap<Procesador, ListaTareas> p) {
-        int tiempoTotal = 0;
-        for (ListaTareas listaTareas : p.values()) {
-            tiempoTotal += listaTareas.getTiempoEjecucionTotal();
-        }
-        return tiempoTotal;
-    }
 
     private HashMap<Procesador, ListaTareas> hacercopia(){
 
@@ -171,8 +160,6 @@ public class Backtracking {
     }
 
 
-
-
     public int getmejorTiempomaximoDeEjecucion() {
         return mejorTiempomaximoDeEjecucion;
     }
@@ -181,4 +168,7 @@ public class Backtracking {
         return contEstados;
     }
 
+    public boolean isAsignoTodas() {
+        return asignoTodas;
+    }
 }
