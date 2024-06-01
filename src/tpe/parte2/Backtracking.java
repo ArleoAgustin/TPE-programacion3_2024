@@ -15,7 +15,6 @@ public class Backtracking {
     private int contEstados;
     private HashMap<Procesador, ListaTareas> mejorSolucion;
     private int mejorTiempomaximoDeEjecucion;
-    private ArrayList<Tarea> tareasSinAsignar;
     private boolean asignoTodas;
 
     public Backtracking(String pathProcesadores, String pathTareas) {
@@ -26,7 +25,6 @@ public class Backtracking {
         this.contEstados = 0;
         this.mejorSolucion = new HashMap();
         this.mejorTiempomaximoDeEjecucion = 0;
-        this.tareasSinAsignar = new ArrayList(tareas.values());
         this.asignoTodas = false;
     }
 
@@ -34,7 +32,7 @@ public class Backtracking {
     public HashMap<Procesador, ListaTareas> asignarTareas(int tiempoDeEjecucionParaProcesadoresNoRefrigerados){
 
 
-        this.backtracking(this.tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
+        this.backtracking(new ArrayList<>(tareas.values()), tiempoDeEjecucionParaProcesadoresNoRefrigerados);
         return mejorSolucion;
 
 
@@ -114,7 +112,6 @@ public class Backtracking {
                     return false;
             }
         }
-
         return true;
     }
 
