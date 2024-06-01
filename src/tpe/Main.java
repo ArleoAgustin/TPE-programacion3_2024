@@ -1,68 +1,31 @@
 package tpe;
 
 import tpe.parte2.Backtracking;
+import tpe.Procesador;
+import tpe.Tarea;
 import tpe.utils.CSVReader;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
-	public static void main(String args[]) {
-
-		CSVReader csvReader = new CSVReader();
-
+	public static void main(String[] args) {
 		String csvTareas = "./src/tpe/datasets/Tareas.csv";
 		String csvProcesadores = "./src/tpe/datasets/Procesadores.csv";
 
-/*
-		tpe.Servicios servicios = new tpe.Servicios(csvProcesadores, csvTareas);
+		// Definir el tiempo de ejecución para procesadores no refrigerados
+		int tProcesadoresNoRefrigerados = 35;
 
-		System.out.println("");
-		System.out.println("Procesadores:");
+		// Crear una instancia de la clase Backtracking
+		Backtracking back = new Backtracking(csvProcesadores, csvTareas, tProcesadoresNoRefrigerados);
 
-		servicios.getProcesadores().forEach( (key, value) ->{
-
-			System.out.println(key.getId_procesador());
-
-		});
-
-		System.out.println("");
-		System.out.println("Tareas:");
-
-		servicios.getTareas().forEach( (key, value) ->{
-
-			System.out.println(value);
-
-		});
-
-		System.out.println("");
-		System.out.println("Servicio 1:");
-
-		System.out.println(servicios.servicio1("T3"));
-
-		System.out.println("");
-		System.out.println("Servicio 2:");
-
-		System.out.println(servicios.servicio2(true));
-
-
-		System.out.println("");
-		System.out.println("Servicio 3:");
-
-		System.out.println(servicios.servicio3(35,60));
-
-*/
-
-		/////////////////////////////////////BACKTRACKING/////////////////////////////////////////////////////
-
-		Backtracking back = new Backtracking(csvProcesadores, csvTareas, 35);
-
+		// Asignar tareas utilizando el algoritmo de backtracking
 		back.asignarTareas();
 
-		back.getProcesadores().forEach( (key,value) ->{
+		back.recorrerSolucion();
 
-			System.out.println( key + " ");
-			System.out.println(value);
 
-		});
 
 
 	}
