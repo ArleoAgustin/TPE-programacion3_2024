@@ -13,27 +13,24 @@ public class Backtracking {
     private HashMap<Procesador, ListaTareas> procesadores;
     private HashMap<String, Tarea> tareas;
     private int contEstados;
-    private int tiempoDeEjecucionParaProcesadoresNoRefrigerados;
     private HashMap<Procesador, ListaTareas> mejorSolucion;
     private int mejorTiempomaximoDeEjecucion;
 
-    public Backtracking(String pathProcesadores, String pathTareas, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
+    public Backtracking(String pathProcesadores, String pathTareas) {
 
         CSVReader reader = new CSVReader();
         this.procesadores = reader.readProcessors(pathProcesadores);
         this.tareas = reader.readTasks(pathTareas);
-        this.tiempoDeEjecucionParaProcesadoresNoRefrigerados = tiempoDeEjecucionParaProcesadoresNoRefrigerados;
         this.contEstados = 0;
         this.mejorSolucion = new HashMap();
         this.mejorTiempomaximoDeEjecucion = 0;
     }
 
 
-    public HashMap<Procesador, ListaTareas> asignarTareas(){
+    public HashMap<Procesador, ListaTareas> asignarTareas(int tiempoDeEjecucionParaProcesadoresNoRefrigerados){
 
 
-        this.backtracking(new ArrayList<Tarea>(tareas.values()));
-        System.out.println(mejorSolucion);
+        this.backtracking(new ArrayList<Tarea>(tareas.values()), tiempoDeEjecucionParaProcesadoresNoRefrigerados);
         return mejorSolucion;
 
     }
@@ -51,18 +48,20 @@ public class Backtracking {
      */
 
 
-    private void backtracking(ArrayList<Tarea> tareasSinAsignar) {
+    private void backtracking(ArrayList<Tarea> tareasSinAsignar, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
 
         contEstados++;
 
         if (tareasSinAsignar.isEmpty()) {
 
             if (this.mejorSolucion.isEmpty()){
+                System.out.println("Estoy vacio");
                 mejorSolucion = this.hacercopia();
                 return;
             }
 
             if (actualEsMejorSolucion()) {
+                System.out.println("Fui mejor solucion");
                 mejorSolucion = this.hacercopia();
             }
         }
@@ -71,14 +70,14 @@ public class Backtracking {
             Tarea tarea = tareasSinAsignar.get(0);
 
             for (Procesador p : procesadores.keySet()) { // Recorre todos los procesadores
-                if (cumpleRequisitos(tarea, p)) {
+                if (cumpleRequisitos(tarea, p, tiempoDeEjecucionParaProcesadoresNoRefrigerados)) {
 
                     ListaTareas tareasProcesador = procesadores.get(p);
                     tareasProcesador.addTarea(tarea);                // Agrega la tarea al procesador
                     procesadores.put(p, tareasProcesador);      // Actualiza el hash de procesadores con la tarea asignada
                     tareasSinAsignar.remove(tarea);
 
-                    backtracking(tareasSinAsignar);
+                    backtracking(tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
 
                     tareasProcesador.removeTarea(tarea);
                     procesadores.put(p, tareasProcesador);      // Actualiza el hashmap con las tareas asignadas
@@ -126,9 +125,9 @@ public class Backtracking {
         return tiempoTotalActual < tiempoTotalMejorSolucion;
     }
 
-    private int calcularTiempoEjecucion(HashMap<Procesador, ListaTareas> procesadores) {
+    private int calcularTiempoEjecucion(HashMap<Procesador, ListaTareas> p) {
         int tiempoTotal = 0;
-        for (ListaTareas listaTareas : procesadores.values()) {
+        for (ListaTareas listaTareas : p.values()) {
             tiempoTotal += listaTareas.getTiempoEjecucionTotal();
         }
         return tiempoTotal;
@@ -151,7 +150,7 @@ public class Backtracking {
     }
 
 
-    private boolean cumpleRequisitos(Tarea tarea, Procesador procesador) {
+    private boolean cumpleRequisitos(Tarea tarea, Procesador procesador, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
 
         ListaTareas listaTareasProcesador = procesadores.get(procesador);
 
@@ -159,14 +158,14 @@ public class Backtracking {
             //si la cantidad de tareas criticas es menor a 2 no entra
             if (procesadores.get(procesador).getCantTareasCriticas() >= 2)
                 return false;
-
-            int tiempoTotalDeEjecucion = procesadores.get(procesador).getTiempoEjecucionTotal();
-
-            tiempoTotalDeEjecucion += tarea.getTiempo_ejecucion();
-            //verifica que el tiempo acumulado + la nueva tarea sea menor al tiempo permitido
-            if (!procesador.isEsta_refrigerado() && tiempoTotalDeEjecucion > this.tiempoDeEjecucionParaProcesadoresNoRefrigerados)
-                return false;
         }
+
+        int tiempoTotalDeEjecucion = procesadores.get(procesador).getTiempoEjecucionTotal();
+
+        tiempoTotalDeEjecucion += tarea.getTiempo_ejecucion();
+        //verifica que el tiempo acumulado + la nueva tarea sea menor al tiempo permitido
+        if (!procesador.isEsta_refrigerado() && tiempoTotalDeEjecucion > tiempoDeEjecucionParaProcesadoresNoRefrigerados)
+            return false;
 
         return true;
     }

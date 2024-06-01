@@ -64,20 +64,20 @@ public class Main {
 
 		/////////////////////////////////////BACKTRACKING/////////////////////////////////////////////////////
 
-		Backtracking back = new Backtracking(csvProcesadores, csvTareas, 35);
+		Backtracking back = new Backtracking(csvProcesadores, csvTareas);
 
 		System.out.println("Backtracking:");
 
-		System.out.println(back.asignarTareas());
-		//back.asignarTareas().forEach( (key,value) ->{
+		//System.out.println(back.asignarTareas());
+		back.asignarTareas(25).forEach( (key,value) ->{
 
-			/*
+
 			System.out.println("");
 			System.out.println( "  "+key + " ");
 			System.out.println(" ");
 			System.out.println(value);
-*/
-		//});
+
+		});
 
 
 		System.out.println("");
