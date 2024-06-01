@@ -2,6 +2,7 @@ package tpe.utils;
 
 import tpe.Procesador;
 import tpe.Tarea;
+import tpe.parte2.ListaTareas;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CSVReader {
 
@@ -36,9 +38,9 @@ public class CSVReader {
 		return tareas;
 	}
 
-	public HashMap readProcessors(String processorPath) {
+	public HashMap<Procesador,ListaTareas> readProcessors(String processorPath) {
 
-		HashMap<Procesador, ArrayList<Tarea>> procesadores = new HashMap<>();
+		HashMap<Procesador, ListaTareas> procesadores = new HashMap<>();
 		ArrayList<String[]> lines = this.readContent(processorPath);
 
 		for (String[] line: lines) {
@@ -48,7 +50,7 @@ public class CSVReader {
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			Procesador p = new Procesador(id,codigo,anio,refrigerado);
-			procesadores.put(p, new ArrayList<Tarea>());
+			procesadores.put(p, new ListaTareas());
 		}
 	return procesadores;
 	}

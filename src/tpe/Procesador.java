@@ -50,10 +50,10 @@ public class Procesador {
     @Override
     public String toString() {
         return "Procesador{" +"\n" +
-                "   id_procesador='" + id_procesador + "," + '\n' +
-                "   codigo_procesador='" + codigo_procesador + "," + '\n' +
-                "   anio_funcionamiento=" + anio_funcionamiento + "," + "\n" +
-                "   esta_refrigerado=" + esta_refrigerado + "," + "\n" +
+                "   ID: '" + id_procesador + "," + '\n' +
+                "   CODIGO: '" + codigo_procesador + "," + '\n' +
+                "   AÑO FUNCIONAMIENTO: " + anio_funcionamiento + "," + "\n" +
+                "   ES REFRIGERADO: " + esta_refrigerado + "," + "\n" +
                 '}';
     }
 }

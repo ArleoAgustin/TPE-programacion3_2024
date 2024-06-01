@@ -1,5 +1,6 @@
 package tpe;
 
+import tpe.parte2.ListaTareas;
 import tpe.utils.CSVReader;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class Servicios {
 
-	private HashMap<Procesador, ArrayList<Tarea>> procesadores;
+	private HashMap<Procesador, ListaTareas> procesadores;
 	private HashMap<String, Tarea> tareas;
 	private ArrayList es_critica, no_esCritica;
 
@@ -46,7 +47,7 @@ public class Servicios {
 		return no_esCritica;
 	}
 
-	public HashMap<Procesador, ArrayList<Tarea>> getProcesadores() {
+	public HashMap<Procesador, ListaTareas> getProcesadores() {
 		return procesadores;
 	}
 
