@@ -31,7 +31,7 @@ public class Backtracking {
 
     public HashMap<Procesador, ListaTareas> asignarTareas(int tiempoDeEjecucionParaProcesadoresNoRefrigerados){
 
-        this.backtracking(new ArrayList<>(tareas.values()), tiempoDeEjecucionParaProcesadoresNoRefrigerados, 0);
+        this.backtracking(new ArrayList<>(tareas.values()), tiempoDeEjecucionParaProcesadoresNoRefrigerados);
         return mejorSolucion;
     }
 
@@ -48,7 +48,7 @@ public class Backtracking {
      */
 
 
-    private void backtracking(ArrayList<Tarea> tareasSinAsignar, int tiempoDeEjecucionParaProcesadoresNoRefrigerados , int tiempoDeEjecucionActual) {
+    private void backtracking(ArrayList<Tarea> tareasSinAsignar, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
 
         contEstados++;
 
@@ -56,15 +56,13 @@ public class Backtracking {
 
             if (this.mejorSolucion.isEmpty()){
                 mejorSolucion = this.hacercopia();
-                this.mejorTiempomaximoDeEjecucion = tiempoDeEjecucionActual;
                 this.asignoTodas = true;
                 return;
             }
 
-            if (tiempoDeEjecucionActual < this.mejorTiempomaximoDeEjecucion) {
+            if (this.actualEsMejorSolucion()) {
                 mejorSolucion = this.hacercopia();
                 this.asignoTodas = true;
-                this.mejorTiempomaximoDeEjecucion = tiempoDeEjecucionActual;
             }
         }
         else {
@@ -73,17 +71,14 @@ public class Backtracking {
 
             for (Procesador p : procesadores.keySet()) { // Recorre todos los procesadores
 
-                if (tiempoDeEjecucionActual < this.mejorTiempomaximoDeEjecucion) {
-                    if (cumpleRequisitos(tarea, p, tiempoDeEjecucionParaProcesadoresNoRefrigerados)) {
-                        tiempoDeEjecucionActual += tarea.getTiempo_ejecucion();
-                        tareasSinAsignar.remove(tarea);
-                        procesadores.get(p).addTarea(tarea);     // Agrega la tarea al procesador
-                        backtracking(tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados, tiempoDeEjecucionActual);
-                        procesadores.get(p).removeTarea(tarea);      // elimina la tarea del hashmap
-                        tiempoDeEjecucionActual -= tarea.getTiempo_ejecucion();
-                        tareasSinAsignar.add(0, tarea);
-                    }
+                if (cumpleRequisitos(tarea, p, tiempoDeEjecucionParaProcesadoresNoRefrigerados)) {
+                    tareasSinAsignar.remove(tarea);
+                    procesadores.get(p).addTarea(tarea);     // Agrega la tarea al procesador
+                    backtracking(tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
+                    procesadores.get(p).removeTarea(tarea);      // elimina la tarea del hashmap
+                    tareasSinAsignar.add(0, tarea);
                 }
+
             }
         }
     }
