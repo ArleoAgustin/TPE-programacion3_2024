@@ -52,7 +52,7 @@ public class Main {
 		System.out.println("");
 		System.out.println("Servicio 3:");
 
-		int prioridadDesde = 35;
+		int prioridadDesde = 35;	//establecer rango
 		int prioridadHasta = 60;
 		System.out.println("");
 		System.out.println("Tareas de prioridad " +prioridadDesde + " hasta " + prioridadHasta);
@@ -105,7 +105,7 @@ public class Main {
 		HashMap<Procesador, ListaTareas> procesadoresGreedy = greedy.asignarTareas(25);
 
 		if (greedy.getContTareasNoAsignadas() > 0){
-			System.out.println("No se pudieron asignar todas las tareas");
+			System.out.println("No pudieron ser asignar todas las tareas");
 		}
 		else {
 

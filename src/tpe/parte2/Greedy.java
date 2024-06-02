@@ -60,7 +60,6 @@ public class Greedy {
                         mejorCandidato = p;                                        //se establece el mejor candidato
                     }
                 }
-
             }
 
             if (mejorCandidato != null) {                              //si existe candidato

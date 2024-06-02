@@ -24,7 +24,7 @@ public class Backtracking {
         this.tareas = reader.readTasks(pathTareas);
         this.contEstados = 0;
         this.mejorSolucion = new HashMap();
-        this.mejorTiempomaximoDeEjecucion = Integer.MAX_VALUE;
+        this.mejorTiempomaximoDeEjecucion = 0;
         this.asignoTodas = false;
     }
 
