@@ -11,7 +11,8 @@ public class Greedy {
     private HashMap<Procesador, ListaTareas> procesadores;
     private HashMap<String, Tarea> tareas;
     private ArrayList<Tarea> tareasSinAsignar;
-    private int contEstados, tiempoMaximoDeEjecucion, contTareasNoAsignadas;
+    private int mejorTiempoDeProcesador;
+    private int contEstados, contTareasNoAsignadas;
 
     public Greedy(String pathProcesadores, String pathTareas) {
 
@@ -19,9 +20,9 @@ public class Greedy {
         this.procesadores = reader.readProcessors(pathProcesadores);
         this.tareas = reader.readTasks(pathTareas);
         this.contEstados = 0;
-        this.tiempoMaximoDeEjecucion = 0;
         this.tareasSinAsignar = new ArrayList<>(tareas.values());
         this.contTareasNoAsignadas = 0;
+        this.mejorTiempoDeProcesador = 0;
     }
 
     public HashMap<Procesador,ListaTareas> asignarTareas(int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
@@ -37,10 +38,8 @@ public class Greedy {
     * se crea un atributo que contiene el tiempo de ejecucion que tiene ese procesador + la tarea a asignar y se
     * compara con el de un procesador ya iterado (anterior). En caso de que este tiempo sea menor que el de otro procesador,
     * se establece a ese procesador como mejor candidato y el mejor tiempo de ejecucion se vuelve el de el. En el primer caso el mejor
-    * tiempo va a ser el de MAX_VALUE().
-    * Una vez iterado todos los procesadores se verifica si hubo candidato y si es asi, se agrega la tarea a el y se
-    * aumenta el tiempo de ejecucion total, evitando de esta manera recorrer todas las listas de los procesadores para
-    * verificar el tiempo total.
+    * tiempo va a ser el de MAX_VALUE(). Una vez iterado todos los procesadores se verifica si hubo candidato y si es asi,
+    * se agrega la tarea a el.
     */
 
     private void asignarTareasGreedy(int tiempoMaximoNoRefrigerado) {
@@ -62,14 +61,22 @@ public class Greedy {
                 }
             }
 
-            if (mejorCandidato != null) {                              //si existe candidato
+            if (mejorCandidato != null)                            //si existe candidato
                 procesadores.get(mejorCandidato).addTarea(tarea);       //le agrega la tarea
-                this.tiempoMaximoDeEjecucion += tarea.getTiempo_ejecucion();            //aumenta el tiempo de ejecucion total
-            }
             else
                 this.contTareasNoAsignadas++;
-
         }
+    }
+
+    public int getMejorTiempoDeProcesador() {
+
+        procesadores.forEach( (key, value) ->{
+
+            if (value.getTiempoEjecucionTotal() > this.mejorTiempoDeProcesador)
+                mejorTiempoDeProcesador = value.getTiempoEjecucionTotal();
+        });
+
+        return mejorTiempoDeProcesador;
     }
 
     private boolean cumpleRequisitos(Tarea tarea, Procesador p, int tiempoDeEjecucionParaProcesadoresNoRefrigerados) {
@@ -89,11 +96,6 @@ public class Greedy {
             return false;
 
         return true;
-    }
-
-
-    public int getTiempomaximoDeEjecucion() {
-        return tiempoMaximoDeEjecucion;
     }
 
     public int getContEstados() {

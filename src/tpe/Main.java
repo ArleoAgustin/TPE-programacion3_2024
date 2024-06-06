@@ -61,7 +61,7 @@ public class Main {
 
 
 		System.out.println("");
-		System.out.println("----------------------------------------------------------------- Parte 2 ---------------------------------------------------------------------");
+		System.out.println("-------------------------------------------- Parte 2 -----------------------------------------------------");
 
 		System.out.println("");
 
@@ -84,20 +84,21 @@ public class Main {
 				System.out.println(value);
 
 			});
+			System.out.println("");
+			System.out.println("Tiempo maximo de ejecucion: " + back.getMejorTiempomaximoDeEjecucion());
+			System.out.println("Cantidad de estados: " + back.getContEstados());
 		}
-		else
-			System.out.println("No pudieron ser asignadas todas las tareas");
+		else {
+			System.out.println("No se pudieron asignar todas las tareas");
 
 
-		System.out.println("");
-		System.out.println("Tiempo maximo de ejecucion: "+ back.getmejorTiempomaximoDeEjecucion());
-		System.out.println("Cantidad de estados: "+ back.getContEstados());
 
+		}
 
-		/////////////////////////////////////GREEDY////////////////////////////////////////////////////////////
+		////////////////////////////////////////////GREEDY////////////////////////////////////////////////////////////
 
 		System.out.println("");
-		System.out.println("---------------------------------------------------------------------- Greedy --------------------------------------------------------------------------");
+		System.out.println("-------------------------------------------- Greedy -------------------------------------------");
 		System.out.println("Greedy");
 
 		Greedy greedy = new Greedy(csvProcesadores, csvTareas);
@@ -105,7 +106,7 @@ public class Main {
 		HashMap<Procesador, ListaTareas> procesadoresGreedy = greedy.asignarTareas(25);
 
 		if (greedy.getContTareasNoAsignadas() > 0){
-			System.out.println("No pudieron ser asignar todas las tareas");
+			System.out.println("No se pudieron asignar todas las tareas");
 		}
 		else {
 
@@ -119,8 +120,9 @@ public class Main {
 
 			});
 
-			System.out.println("Tiempo maximo de ejecucion: " + greedy.getTiempomaximoDeEjecucion());
+			System.out.println("Tiempo maximo de ejecucion: " + greedy.getMejorTiempoDeProcesador());
 			System.out.println("Cantidad de estados: " + greedy.getContEstados());
 		}
+
 	}
 }
