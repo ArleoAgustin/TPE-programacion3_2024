@@ -3,16 +3,12 @@ package tpe;
 import tpe.parte2.Backtracking;
 import tpe.parte2.Greedy;
 import tpe.parte2.ListaTareas;
-import tpe.utils.CSVReader;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
 
 	public static void main(String args[]) {
-
-		CSVReader csvReader = new CSVReader();
 
 		String csvTareas = "./src/tpe/datasets/Tareas.csv";
 		String csvProcesadores = "./src/tpe/datasets/Procesadores.csv";
@@ -85,7 +81,7 @@ public class Main {
 
 			});
 			System.out.println("");
-			System.out.println("Tiempo maximo de ejecucion: " + back.getMejorTiempomaximoDeEjecucion());
+			System.out.println("Tiempo maximo de ejecucion de la solucion: " + back.getMejorTiempomaximoDeEjecucion());
 			System.out.println("Cantidad de estados: " + back.getContEstados());
 		}
 		else {
@@ -120,7 +116,7 @@ public class Main {
 
 			});
 
-			System.out.println("Tiempo maximo de ejecucion: " + greedy.getMejorTiempoDeProcesador());
+			System.out.println("Tiempo maximo de ejecucion de la solucion: " + greedy.getMejorTiempoDeProcesador());
 			System.out.println("Cantidad de estados: " + greedy.getContEstados());
 		}
 

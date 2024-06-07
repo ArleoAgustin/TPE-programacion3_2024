@@ -10,9 +10,7 @@ public class Greedy {
 
     private HashMap<Procesador, ListaTareas> procesadores;
     private HashMap<String, Tarea> tareas;
-    private ArrayList<Tarea> tareasSinAsignar;
-    private int mejorTiempoDeProcesador;
-    private int contEstados, contTareasNoAsignadas;
+    private int contEstados, contTareasNoAsignadas, mejorTiempoDeProcesador;
 
     public Greedy(String pathProcesadores, String pathTareas) {
 
@@ -20,7 +18,6 @@ public class Greedy {
         this.procesadores = reader.readProcessors(pathProcesadores);
         this.tareas = reader.readTasks(pathTareas);
         this.contEstados = 0;
-        this.tareasSinAsignar = new ArrayList<>(tareas.values());
         this.contTareasNoAsignadas = 0;
         this.mejorTiempoDeProcesador = 0;
     }
@@ -44,7 +41,7 @@ public class Greedy {
 
     private void asignarTareasGreedy(int tiempoMaximoNoRefrigerado) {
 
-        for (Tarea tarea : this.tareasSinAsignar) {      //recorre todas las tareas
+        for (Tarea tarea : tareas.values()) {      //recorre todas las tareas
 
             contEstados++;
             Procesador mejorCandidato = null;

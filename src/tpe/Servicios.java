@@ -2,7 +2,6 @@ package tpe;
 
 import tpe.parte2.ListaTareas;
 import tpe.utils.CSVReader;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +19,8 @@ public class Servicios {
 	private ArrayList es_critica, no_esCritica;
 
 	/*
-     * La complejidad temporal del constructor es O(n), donde n es la cantidad de lineas
-     * que contiene el csv para asi luego crear el objeto y agregarla al hashmap
+     * La complejidad temporal del constructor es O(P + T), siendo P el numero
+     * de procesadores y T el numero de tareas.
      */
 	public Servicios(String pathProcesadores, String pathTareas) {
 
@@ -39,30 +38,12 @@ public class Servicios {
 		});
 	}
 
-	public ArrayList getEs_critica() {
-		return es_critica;
-	}
-
-	public ArrayList getNo_esCritica() {
-		return no_esCritica;
-	}
-
-	public HashMap<Procesador, ListaTareas> getProcesadores() {
-		return procesadores;
-	}
-
-	public HashMap<String, Tarea> getTareas() {
-		return tareas;
-	}
 
 	/*
      * La complejidad temporal del servicio 1 es O(1), ya que se busca por el id de la tarea,
      * el cual es la key en el hashmap por lo que accede directamente a la tarea.
      */
-	public Tarea servicio1(String ID) {
-
-		return this.tareas.get(ID);
-	}
+	public Tarea servicio1(String ID) { return this.tareas.get(ID); }
     
     /*
      * La complejidad temporal del servicio 2 es O(1), ya que verifica si se piden las tareas
@@ -77,7 +58,7 @@ public class Servicios {
 	}
 
     /*
-     * La complejidad temporal del ejercicio 3 es O(n), igual que para el servicio 2 hay
+     * La complejidad temporal del servicio 3 es O(n), igual que para el servicio 2 hay
      * que iterar sobre todas las tareas del hashmap para ver si esta dentro del rango de
      * prioridad.
      */
@@ -92,6 +73,23 @@ public class Servicios {
 		});
 
 		return listaTareas;
+	}
+
+
+	public ArrayList getEs_critica() {
+		return es_critica;
+	}
+
+	public ArrayList getNo_esCritica() {
+		return no_esCritica;
+	}
+
+	public HashMap<Procesador, ListaTareas> getProcesadores() {
+		return procesadores;
+	}
+
+	public HashMap<String, Tarea> getTareas() {
+		return tareas;
 	}
 
 }
