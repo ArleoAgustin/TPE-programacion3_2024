@@ -77,7 +77,7 @@ public class Backtracking {
 
     private int calcularMaximoTiempoDeEjecucion() {
 
-        int tiempoActual = 0;
+        int tiempoActual = -1;
         for (ListaTareas tareas : procesadores.values()) {
 
             if (tareas.getTiempoEjecucionTotal() > tiempoActual)
@@ -109,13 +109,13 @@ public class Backtracking {
 
         if (!listaTareasProcesador.isEmpty()) {
             //si la cantidad de tareas criticas es menor a 2 no entra
-            if (procesadores.get(procesador).getCantTareasCriticas() >= 2)
+            if (procesadores.get(procesador).getCantTareasCriticas() == 2)
                 return false;
         }
 
-        int tiempoTotalDeEjecucion = procesadores.get(procesador).getTiempoEjecucionTotal();
-
+        int tiempoTotalDeEjecucion= listaTareasProcesador.getTiempoEjecucionTotal();
         tiempoTotalDeEjecucion += tarea.getTiempo_ejecucion();
+
         //verifica que el tiempo acumulado + la nueva tarea sea menor al tiempo permitido
         if (!procesador.isEsta_refrigerado() && tiempoTotalDeEjecucion > tiempoDeEjecucionParaProcesadoresNoRefrigerados)
             return false;

@@ -54,6 +54,7 @@ public class ListaTareas {
 
         this.tiempoEjecucionTotal += t.getTiempo_ejecucion();
         this.tareas.add(t);
+
     }
 
     public int getTiempoEjecucionTotal() {

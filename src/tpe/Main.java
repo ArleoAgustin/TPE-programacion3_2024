@@ -16,7 +16,7 @@ public class Main {
 
 		tpe.Servicios servicios = new tpe.Servicios(csvProcesadores, csvTareas);
 
-		System.out.println("");
+		/*System.out.println("");
 		System.out.println("Servicio 1:");
 
 
@@ -56,7 +56,7 @@ public class Main {
 		System.out.println(servicios.servicio3(prioridadDesde,prioridadHasta));
 
 
-		System.out.println("");
+		System.out.println("");*/
 		System.out.println("-------------------------------------------- Parte 2 -----------------------------------------------------");
 
 		System.out.println("");
@@ -67,7 +67,7 @@ public class Main {
 
 		System.out.println("Backtracking:");
 
-		HashMap<Procesador, ListaTareas> procesadoresBacktracking = back.asignarTareas(25);
+		HashMap<Procesador, ListaTareas> procesadoresBacktracking = back.asignarTareas(100);
 
 		if (back.isAsignoTodas()){
 
@@ -89,7 +89,7 @@ public class Main {
 
 
 
-		}
+		}/*
 
 		////////////////////////////////////////////GREEDY////////////////////////////////////////////////////////////
 
@@ -118,7 +118,7 @@ public class Main {
 
 			System.out.println("Tiempo maximo de ejecucion de la solucion: " + greedy.getMejorTiempoDeProcesador());
 			System.out.println("Cantidad de estados: " + greedy.getContEstados());
-		}
+		}*/
 
 	}
 }
