@@ -60,24 +60,25 @@ public class Backtracking {
             }
         }
         else {
-
+                Tarea tarea = tareasSinAsignar.get(0);
+                tareasSinAsignar.remove(tarea);
                 for (Procesador p : procesadores.keySet()) { // Recorre todos los procesadores
-                    Tarea tarea = tareasSinAsignar.get(0);
                     if (cumpleRequisitos(tarea, p, tiempoDeEjecucionParaProcesadoresNoRefrigerados)) {
-                        tareasSinAsignar.remove(tarea);
+
                         procesadores.get(p).addTarea(tarea);     // Agrega la tarea al procesador
                         backtracking(tareasSinAsignar, tiempoDeEjecucionParaProcesadoresNoRefrigerados);
                         procesadores.get(p).removeTarea(tarea);      // elimina la tarea del hashmap
-                        tareasSinAsignar.add(0, tarea);
+
                     }
                 }
+            tareasSinAsignar.add(0, tarea);
             }
         }
 
 
     private int calcularMaximoTiempoDeEjecucion() {
 
-        int tiempoActual = 0;
+        int tiempoActual = -1;
         for (ListaTareas tareas : procesadores.values()) {
 
             if (tareas.getTiempoEjecucionTotal() > tiempoActual)
@@ -109,11 +110,11 @@ public class Backtracking {
 
         if (!listaTareasProcesador.isEmpty()) {
             //si la cantidad de tareas criticas es menor a 2 no entra
-            if (procesadores.get(procesador).getCantTareasCriticas() >= 2)
+            if (procesadores.get(procesador).getCantTareasCriticas() == 2)
                 return false;
         }
 
-        int tiempoTotalDeEjecucion = procesadores.get(procesador).getTiempoEjecucionTotal();
+        int tiempoTotalDeEjecucion = listaTareasProcesador.getTiempoEjecucionTotal();
 
         tiempoTotalDeEjecucion += tarea.getTiempo_ejecucion();
         //verifica que el tiempo acumulado + la nueva tarea sea menor al tiempo permitido

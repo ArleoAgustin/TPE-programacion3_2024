@@ -34,9 +34,9 @@ public class ListaTareas {
         if (tareas.contains(t)) {
             tareas.remove(t);
             if (t.isEs_critica())
-                cantTareasCriticas--;
+                cantTareasCriticas--; //restamos si se remueve una critica
 
-            this.tiempoEjecucionTotal -= t.getTiempo_ejecucion();
+            this.tiempoEjecucionTotal -= t.getTiempo_ejecucion(); //restamos el tiempo de proc al total
         }
 
     }
@@ -50,9 +50,9 @@ public class ListaTareas {
     public void addTarea(Tarea t) {
 
         if (t.isEs_critica())
-            this.cantTareasCriticas++;
+            this.cantTareasCriticas++; //aumenta en caso de ser critica
 
-        this.tiempoEjecucionTotal += t.getTiempo_ejecucion();
+        this.tiempoEjecucionTotal += t.getTiempo_ejecucion(); //sumamos al total
         this.tareas.add(t);
     }
 

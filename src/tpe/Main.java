@@ -67,7 +67,7 @@ public class Main {
 
 		System.out.println("Backtracking:");
 
-		HashMap<Procesador, ListaTareas> procesadoresBacktracking = back.asignarTareas(25);
+		HashMap<Procesador, ListaTareas> procesadoresBacktracking = back.asignarTareas(200); //Modificar parametro para tiempo de proc No refrigerados
 
 		if (back.isAsignoTodas()){
 
